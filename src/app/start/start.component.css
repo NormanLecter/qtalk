@@ -1,0 +1,23 @@
+.ui-g > .about {
+    text-align: right;
+    /* vertical-align: middle; */
+    font-size: 15px;
+    font-weight: bold;
+    position: absolute;
+    margin-top: -100px;
+    right: 15px;
+}
+
+.ui-g > div {
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 150px;
+    font-size: 60px;
+}
+
+.ui-g > p {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 10px;
+    font-size: 15px;
+}
