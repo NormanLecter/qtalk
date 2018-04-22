@@ -4,7 +4,43 @@
     <img src="../../assets/images/phone.png" alt="Phone - QTalk" height="50px" width="50px">QTalk
   </div>
   <p>Podaj imię, nazwę pokoju i zacznij rozmawiać!</p>
-  <!-- TODO: stepper -->
+
+<mat-horizontal-stepper #stepper="matHorizontalStepper">
+  <mat-step [stepControl]="formName">
+    <form [formGroup]="formName">
+      <ng-template matStepLabel>Wpisz imię</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="imię..." formControlName="firstCtrl" required>
+      </mat-form-field>
+      <div>
+        <br><br>
+        <button mat-button matStepperNext>Dalej</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="formRoomName">
+    <form [formGroup]="formRoomName">
+      <ng-template matStepLabel>Podaj nazwę pokoju</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="nazwa pokoju..." formControlName="secondCtrl" required>
+      </mat-form-field>
+      <div>
+        <br><br>
+        <button mat-button matStepperPrevious>Wstecz</button>
+        <button mat-button matStepperNext>Dalej</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Generuj pokój</ng-template>
+    Poniżej został wygenerowany do nowo wygenerowanego pokoju
+    <br><br>
+    <div>
+      <button mat-button matStepperPrevious>Wstecz</button>
+      <button mat-button (click)="stepper.reset()">Resetuj</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
   <p>lub zaloguj się osobistym kontem</p>
   <!-- TODO: Button 'zaloguj' i pod tym nie masz konta? zarejestruj  sie-->
 </div>

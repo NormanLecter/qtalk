@@ -1,4 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 
 @Component({
   selector: 'app-start',
@@ -8,10 +11,18 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class StartComponent implements OnInit {
 
-  constructor() { }
+  formName: FormGroup;
+  formRoomName: FormGroup;
+
+  constructor(private _formBuilder: FormBuilder) { }
 
   ngOnInit() {
-
+    this.formName = this._formBuilder.group({
+      firstCtrl: ['', Validators.required]
+    });
+    this.formRoomName = this._formBuilder.group({
+      secondCtrl: ['', Validators.required]
+    });
   }
 
 }
