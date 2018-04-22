@@ -1,0 +1,8 @@
+.start-info h1 {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.start-info-header {
+    margin-bottom: 50px;
+}

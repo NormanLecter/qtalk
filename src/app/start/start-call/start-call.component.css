@@ -1,0 +1,9 @@
+.start-call {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.start-call-input {
+    margin: auto;
+}

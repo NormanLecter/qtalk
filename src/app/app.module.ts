@@ -5,6 +5,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { StartComponent } from './start/start.component';
+import { StartInfoComponent } from './start/start-info/start-info.component';
+import { ButtonModule } from 'primeng/primeng';
+import { StartCallComponent } from './start/start-call/start-call.component';
+import {InputTextModule} from 'primeng/inputtext';
 
 const appRoutes: Routes = [
   {
@@ -20,9 +24,13 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    StartComponent
+    StartComponent,
+    StartInfoComponent,
+    StartCallComponent
   ],
   imports: [
+    ButtonModule,
+    InputTextModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,
