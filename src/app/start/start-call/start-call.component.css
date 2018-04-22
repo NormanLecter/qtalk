@@ -1,0 +1,11 @@
+.start-call {
+    display: flex;
+    flex-direction: column;
+}
+
+.connect-container{
+    position: relative;
+    margin-top: 50%;
+    left: 75%;
+    transform: translate(-50%, -50%);
+}

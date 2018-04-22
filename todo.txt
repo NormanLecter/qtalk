@@ -1,2 +1,3 @@
 - MongoDB w sieci
 - API 
+- ikony na bialo

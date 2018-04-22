@@ -1,0 +1,48 @@
+<div class="start-info">
+  <div class="start-info-header">
+    <img src="../../assets/images/phone.png" alt="Phone - QTalk" height="50px" width="50px" />
+    <h1>Qtalk</h1>
+  </div>
+  <br><br>
+  <h3>Podaj imię, nazwę pokoju i zacznij rozmawiać!</h3>
+  <mat-horizontal-stepper [linear]="true" class="stepper" #stepper="matHorizontalStepper">
+    <mat-step [stepControl]="formName">
+      <form [formGroup]="formName">
+        <ng-template matStepLabel>Wpisz imię</ng-template>
+        <mat-form-field [color]="white">
+          <input matInput placeholder="imię..." formControlName="firstCtrl" required>
+        </mat-form-field>
+        <div>
+          <button pButton matStepperNext type="button" label="Dalej"></button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="formRoomName">
+      <form [formGroup]="formRoomName">
+        <ng-template matStepLabel>Podaj nazwę pokoju</ng-template>
+        <mat-form-field>
+          <input matInput placeholder="nazwa pokoju..." formControlName="secondCtrl" required>
+        </mat-form-field>
+        <div>
+            <br>
+            <button pButton matStepperPrevious type="button" label="Wstecz"></button>
+            <button pButton matStepperNext type="button" label="Dalej"></button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Generuj pokój</ng-template>
+      Poniżej został wygenerowany do nowo wygenerowanego pokoju
+      <br>
+      [[TU BEDZIE LINK DO POKOJU QTALK]]
+      <br>
+      <div>
+          <button pButton matStepperPrevious type="button" label="Wstecz"></button>
+          <button pButton (click)="stepper.reset()" type="button" label="Resetuj"></button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+  <br><br>
+  <p>Masz konto? <strong>zaloguj się</strong></p>
+  <!-- TODO: Button 'zaloguj' i pod tym nie masz konta? zarejestruj  sie-->
+</div>
