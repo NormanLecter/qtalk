@@ -32,9 +32,9 @@
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Generuj pokój</ng-template>
-      Poniżej został wygenerowany do nowo wygenerowanego pokoju
+      Poniżej został stworzony kod do wygenerowanego pokoju
       <br>
-      [[TU BEDZIE LINK DO POKOJU QTALK]]
+      <h3><strong>{{ numberOfRoom }}</strong></h3>
       <br>
       <div>
           <button pButton matStepperPrevious type="button" label="Wstecz"></button>
@@ -44,5 +44,5 @@
   </mat-horizontal-stepper>
   <br><br>
   <p>Masz konto? <strong>zaloguj się</strong></p>
-  <!-- TODO: Button 'zaloguj' i pod tym nie masz konta? zarejestruj  sie-->
+  <!-- TODO: Button 'zaloguj' i pod tym 'nie masz konta? zarejestruj sie' -->
 </div>

@@ -10,15 +10,20 @@ import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/ma
 })
 export class StartInfoComponent implements OnInit {
 
-  formName: FormGroup;
-  formRoomName: FormGroup;
+  formName : FormGroup;
+  formRoomName : FormGroup;
+  numberOfRoom : Number;
 
   constructor(private _formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    // TODO: sprawdzenie, czy dany numer-kod nie jest już używany
+    this.numberOfRoom = Math.round(Math.random() * 10000);
+
     this.formName = this._formBuilder.group({
       firstCtrl: ['', Validators.required]
     });
+
     this.formRoomName = this._formBuilder.group({
       secondCtrl: ['', Validators.required]
     });
