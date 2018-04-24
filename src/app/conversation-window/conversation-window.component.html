@@ -1,0 +1,25 @@
+
+<mat-card>
+  <button pButton type="button" (click)="count()" label="Zakończ połączenie" class="ui-button-danger"></button>
+  <br><br>
+  <h1>QTalk - Pokój rozmowy</h1><br>
+  <h3>Numer: <strong>{{sharedServicesService.numberOfRoom}}</strong></h3>
+  <h3 *ngIf="sharedServicesService.name != ''">Imię : <strong>{{sharedServicesService.name}}</strong></h3>
+  <h3 *ngIf="sharedServicesService.roomName != ''">Nazwa : <strong>{{sharedServicesService.roomName}}</strong></h3>
+  <br>
+  <mat-form-field>
+      <mat-select [(value)]="selectedMic">
+        <mat-option value="Wybierz mikrofon z listy..">Wybierz mikrofon z listy..</mat-option>
+        <mat-option value="Tracer STUDIO 43948">Tracer STUDIO 43948</mat-option>
+        <mat-option value="ATR3350">ATR3350</mat-option>
+        <mat-option value="Tracer Classic">Tracer Classic</mat-option>
+      </mat-select>
+  </mat-form-field>
+  <br>
+  <span *ngIf="selectedMic != 'Wybierz mikrofon z listy..'">
+    <h3>Poziom głośności</h3>
+    <mat-slider></mat-slider>
+    <br>
+    <mat-slide-toggle>Wycisz mikrofon</mat-slide-toggle>
+  </span>
+</mat-card>

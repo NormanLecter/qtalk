@@ -2,8 +2,8 @@
   <div class="connect-container">
     <h3>... lub dołącz do istniejącego pokoju</h3>
     <div class="ui-inputgroup start-call-input">
-      <input type="text" pInputText placeholder="numer pokoju" size="35">
-      <button pButton type="button" label="Dołącz"></button>
+      <input type="text" pInputText placeholder="numer pokoju" size="35" [(ngModel)]="numberOfRoom">
+      <button pButton type="button" label="Dołącz" (click)="sharedServicesService.navigateToConversation(numberOfRoom)"></button>
       <!-- TODO: DialogBox przy podlaczniu do pokoju do wpisania imienia -->
     </div>
   </div>

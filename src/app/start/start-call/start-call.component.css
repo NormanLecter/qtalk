@@ -6,6 +6,11 @@
 .connect-container{
     position: relative;
     margin-top: 50%;
-    left: 75%;
+    margin-left: 60%;
     transform: translate(-50%, -50%);
+}
+
+.start-call > .connect-container > h3 {
+    margin-left: -30%;
+    margin-right: -10%;
 }

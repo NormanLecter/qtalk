@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedServicesService } from '../../shared-services.service';
 
 @Component({
   selector: 'app-start-call',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StartCallComponent implements OnInit {
 
-  constructor() { }
+  numberOfRoom : Number;
+
+  constructor(private sharedServicesService : SharedServicesService) { }
 
   ngOnInit() {
   }
