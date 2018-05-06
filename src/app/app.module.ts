@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { StartComponent } from './start/start.component';
 import { SharedServicesService } from './shared-services.service';
+import { WebRtcService } from './__services/web-rtc.service';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule, MatFormFieldModule, MatCardModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -63,7 +64,7 @@ const appRoutes: Routes = [
       { enableTracing: true }
     )
   ],
-  providers: [SharedServicesService],
+  providers: [SharedServicesService, WebRtcService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
