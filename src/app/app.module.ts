@@ -18,6 +18,7 @@ import { MatSelectModule } from '@angular/material/select'
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ConversationWindowComponent } from './conversation-window/conversation-window.component';
+import { AboutComponent } from './about/about.component';
 
 const appRoutes: Routes = [
   {
@@ -29,6 +30,10 @@ const appRoutes: Routes = [
     component: ConversationWindowComponent,
     data: { title: 'Okno rozmowy - QTalk' }
   },
+  { path: 'about',
+  component: AboutComponent,
+  data: { title: 'About - QTalk' }
+},
   { path: '',
     redirectTo: '/start',
     pathMatch: 'full'
@@ -41,7 +46,8 @@ const appRoutes: Routes = [
     StartComponent,
     StartInfoComponent,
     StartCallComponent,
-    ConversationWindowComponent
+    ConversationWindowComponent,
+    AboutComponent
   ],
   imports: [
     MatSelectModule,

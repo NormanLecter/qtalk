@@ -30,9 +30,4 @@ export class StartInfoComponent implements OnInit {
       roomName: ['', Validators.required]
     });
   }
-
-  test(){
-    console.log(this.formName.get('name').value);
-  }
-
 }

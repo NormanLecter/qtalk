@@ -11,3 +11,34 @@ mat-card{
     opacity: 0.9;
     border-radius: 50px;
 }
+
+#local-video-container{
+    position: relative;
+    width: 200px;
+    height: 120px;
+}
+
+#remote-video-container {
+    position: relative;
+    width: 200px;
+    height: 120px;
+}
+
+#local-video-container video{
+    float: right;
+    height: 120px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75); 
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+}
+
+.volume_bar {
+    position: absolute;
+    width: 8px;
+    height: 0px;
+    right: -10px;
+    bottom: 0px;
+    background-color: #12acef;
+}

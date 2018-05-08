@@ -2,7 +2,8 @@
 <mat-card>
     <div class="ui-g">
         <div class="ui-g-12 ui-md-12 ui-lg-12">
-            <button pButton type="button" (click)="count()" label="Zakończ połączenie" class="ui-button-danger"></button>
+            <button pButton type="button"  *ngIf="!sharedServicesService.roomOwner" (click)="endConnection()" label="Opuść pokój" class="ui-button-danger"></button>
+            <button pButton type="button" *ngIf="sharedServicesService.roomOwner" (click)="kickPersons()" label="Zakończ połączenie" class="ui-button-danger"></button>
             <br><br>
             <h1>QTalk - Pokój rozmowy</h1><br>
         </div>
@@ -13,7 +14,7 @@
             <br>
             <mat-form-field>
                 <mat-select [(value)]="selectedMic">
-                  <mat-option value="Wybierz mikrofon z listy..">Wybierz mikrofon z listy..</mat-option>
+                  <mat-option value="Wybierz mikrofon..">Wybierz mikrofon..</mat-option>
                   <mat-option value="Tracer STUDIO 43948">Tracer STUDIO 43948</mat-option>
                   <mat-option value="ATR3350">ATR3350</mat-option>
                   <mat-option value="Tracer Classic">Tracer Classic</mat-option>
@@ -29,8 +30,11 @@
             </span>
         </div>
         <div class="ui-g-6 ui-md-6 ui-lg-6">
-            <video height="300" id="local-video"></video>
-            <div id="remote-video"></div>
+            <div id="local-video-container">
+                    <video style="height:120px" id="local-video"></video>
+                    <div id="localVolume" class="volume_bar"></div>
+            </div>
+            <div id="remote-video-container"></div>
       </div>
   </div>
 </mat-card>
