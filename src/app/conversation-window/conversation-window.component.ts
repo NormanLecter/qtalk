@@ -12,12 +12,19 @@ import { Observable } from 'rxjs/Observable';
 export class ConversationWindowComponent implements OnInit {
 
   microphones : any;
-  selectedMic : String;
+  selectedMic : string;
 
   constraints = {
     audio: false,
     video: true
   };
+
+  audioInputs = [];
+
+  mutMic : boolean = false;
+
+  MicPowerValue : number = 80;
+  MicPowerValueBackup : number = 80;
 
   room = location.search && location.search.split('?')[1];
 
@@ -86,6 +93,34 @@ export class ConversationWindowComponent implements OnInit {
 
   ngOnInit() {
     this.initStaticData();
+    this.loadMics();
+  }
+
+  onChangeMutMicSlideToggle(){
+    this.mutMic = !this.mutMic;
+    if(this.mutMic){
+      this.MicPowerValueBackup = this.MicPowerValue;
+      this.MicPowerValue = 0;
+    }
+    else{
+      this.MicPowerValue = this.MicPowerValueBackup;
+    }
+  }
+
+  loadMics(){
+    let stream;
+    navigator.mediaDevices.getUserMedia({ audio:true })
+    .then(s => (stream = s), e => console.log(e.message))
+    .then(() => navigator.mediaDevices.enumerateDevices())
+    .then(devices => {
+      // console.log("Detected " + devices.length + " devices .");
+      devices.forEach(d => {
+        if(d.kind == 'audioinput'){
+          this.audioInputs.push({'value' : d.label, 'viewValue' : d.label});
+        }
+      })
+    })
+    .catch(e => console.log(e));
   }
 
   initStaticData(){

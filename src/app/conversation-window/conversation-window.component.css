@@ -12,16 +12,31 @@ mat-card{
     border-radius: 50px;
 }
 
+@keyframes local-show {
+    from {
+        opacity: 0.1;
+    }
+    to {
+
+        opactity: 1;
+    }
+}
+
+
 #local-video-container{
     position: relative;
     width: 200px;
     height: 120px;
+    animation-name: local-show;
+    animation-duration: 3s;
 }
-
+ 
 #remote-video-container {
     position: relative;
     width: 200px;
     height: 120px;
+    animation-name: local-show;
+    animation-duration: 3s;
 }
 
 #local-video-container video{

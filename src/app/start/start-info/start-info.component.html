@@ -3,7 +3,6 @@
     <img src="../../assets/images/phone.png" alt="Phone - QTalk" height="50px" width="50px" />
     <h1>Qtalk</h1>
   </div>
-  <br><br>
   <h3>Podaj imię, nazwę pokoju i zacznij rozmawiać!</h3>
   <mat-horizontal-stepper [linear]="true" class="stepper" #stepper="matHorizontalStepper">
     <mat-step [stepControl]="formName">
@@ -24,7 +23,6 @@
           <input matInput placeholder="nazwa pokoju..." formControlName="roomName" required>
         </mat-form-field>
         <div>
-            <br>
             <button pButton matStepperPrevious type="button" label="Wstecz"></button>
             <button pButton matStepperNext type="button" label="Dalej"></button>
         </div>
@@ -33,19 +31,15 @@
     <mat-step>
       <ng-template matStepLabel>Generuj pokój</ng-template>
       Poniżej został stworzony kod do wygenerowanego pokoju
-      <br>
+
       <h3><strong>{{ numberOfRoom }}</strong></h3>
-      <br>
       <button pButton (click)="sharedServicesService.navigateToConversation(numberOfRoom,this.formName.get('name').value, this.formRoomName.get('roomName').value)" type="button" label="Wejdź do pokoju"></button>
-      <br>
-      <br>
       <div>
           <button pButton matStepperPrevious type="button" label="Wstecz"></button>
           <button pButton (click)="stepper.reset()" type="button" label="Resetuj"></button>
       </div>
     </mat-step>
   </mat-horizontal-stepper>
-  <br><br>
   <p>Masz konto? <strong>zaloguj się</strong> Nie masz?<strong> stwórz konto QTalk</strong></p>
   <!-- TODO: Button 'zaloguj' i pod tym 'nie masz konta? zarejestruj sie' -->
 </div>

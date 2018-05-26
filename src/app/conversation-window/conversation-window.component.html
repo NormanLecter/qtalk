@@ -2,31 +2,25 @@
 <mat-card>
     <div class="ui-g">
         <div class="ui-g-12 ui-md-12 ui-lg-12">
-            <button pButton type="button"  *ngIf="!sharedServicesService.roomOwner" (click)="endConnection()" label="Opuść pokój" class="ui-button-danger"></button>
-            <button pButton type="button" *ngIf="sharedServicesService.roomOwner" (click)="kickPersons()" label="Zakończ połączenie" class="ui-button-danger"></button>
-            <br><br>
-            <h1>QTalk - Pokój rozmowy</h1><br>
+            <button pButton type="button" (click)="endConnection()" label="Opuść pokój" class="ui-button-danger"></button>
+            <button pButton type="button" *ngIf="sharedServicesService.roomOwner" (click)="kickPersons()" label="Zakończ połączenie z gościem" class="ui-button-warning"></button>
+            <h1>QTalk - Pokój rozmowy</h1>
         </div>
         <div class="ui-g-6 ui-md-6 ui-lg-6">
             <h3>Numer: <strong>{{sharedServicesService.numberOfRoom}}</strong></h3>
             <h3 *ngIf="sharedServicesService.name != ''">Imię : <strong>{{sharedServicesService.name}}</strong></h3>
             <h3 *ngIf="sharedServicesService.roomName != ''">Nazwa : <strong>{{sharedServicesService.roomName}}</strong></h3>
-            <br>
             <mat-form-field>
-                <mat-select [(value)]="selectedMic">
-                  <mat-option value="Wybierz mikrofon..">Wybierz mikrofon..</mat-option>
-                  <mat-option value="Tracer STUDIO 43948">Tracer STUDIO 43948</mat-option>
-                  <mat-option value="ATR3350">ATR3350</mat-option>
-                  <mat-option value="Tracer Classic">Tracer Classic</mat-option>
+                <mat-select placeholder="Wybierz mikrofon" [(ngModel)]="selectedMic">
+                    <mat-option *ngFor="let mic of audioInputs" [value]="mic.value">
+                        {{ mic.viewValue }}
+                      </mat-option>
                 </mat-select>
             </mat-form-field>
-            <br>
             <span *ngIf="selectedMic != 'Wybierz mikrofon..'">
               <h3>Poziom głośności</h3>
-              <mat-slider></mat-slider>
-              <br>
-              <mat-slide-toggle>Wycisz mikrofon</mat-slide-toggle>
-              <br>
+              <mat-slider  min="1" max="100" step="1" [value]="MicPowerValue"></mat-slider>
+              <mat-slide-toggle (change)="onChangeMutMicSlideToggle($event)" [checked]="muteMic">Wycisz mikrofon</mat-slide-toggle>
             </span>
         </div>
         <div class="ui-g-6 ui-md-6 ui-lg-6">
@@ -37,4 +31,4 @@
             <div id="remote-video-container"></div>
       </div>
   </div>
-</mat-card>
+</mat-card> 
