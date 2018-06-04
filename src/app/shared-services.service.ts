@@ -35,4 +35,12 @@ export class SharedServicesService {
     this.router.navigate(['about']);
 }
 
+  navigateToLogin() : void {
+    this.router.navigate(['login']);
+  }
+
+  navigateToRegister(): void {
+    this.router.navigate(['register']);
+  }
+
 }

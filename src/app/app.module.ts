@@ -13,12 +13,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StartInfoComponent } from './start/start-info/start-info.component';
 import { ButtonModule } from 'primeng/primeng';
 import { StartCallComponent } from './start/start-call/start-call.component';
-import { InputTextModule }  from 'primeng/inputtext';
+import { InputTextModule } from 'primeng/inputtext';
 import { MatSelectModule } from '@angular/material/select'
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ConversationWindowComponent } from './conversation-window/conversation-window.component';
 import { AboutComponent } from './about/about.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { WebsocketService } from './__services/websocket.service';
+import { SignalService } from './__services/signal.service';
 
 const appRoutes: Routes = [
   {
@@ -26,15 +30,28 @@ const appRoutes: Routes = [
     component: StartComponent,
     data: { title: 'Start - QTalk' }
   },
-  { path: 'conversation-window',
+  {
+    path: 'conversation-window',
     component: ConversationWindowComponent,
     data: { title: 'Okno rozmowy - QTalk' }
   },
-  { path: 'about',
-  component: AboutComponent,
-  data: { title: 'About - QTalk' }
-},
-  { path: '',
+  {
+    path: 'about',
+    component: AboutComponent,
+    data: { title: 'About - QTalk' }
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    data: { title: 'Login - QTalk' }
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    data: { title: 'Rejestracja - QTalk' }
+  },
+  {
+    path: '',
     redirectTo: '/start',
     pathMatch: 'full'
   }
@@ -47,7 +64,9 @@ const appRoutes: Routes = [
     StartInfoComponent,
     StartCallComponent,
     ConversationWindowComponent,
-    AboutComponent
+    AboutComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     MatSelectModule,
@@ -70,7 +89,7 @@ const appRoutes: Routes = [
       { enableTracing: true }
     )
   ],
-  providers: [SharedServicesService, WebRtcService],
+  providers: [SharedServicesService, WebRtcService, WebsocketService, SignalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -40,6 +40,6 @@
       </div>
     </mat-step>
   </mat-horizontal-stepper>
-  <p>Masz konto? <strong>zaloguj się</strong> Nie masz?<strong> stwórz konto QTalk</strong></p>
+  <p>Masz konto? <button pButton type="button" label="Zaloguj się" (click)="sharedServicesService.navigateToLogin()"></button> Nie masz?<button pButton type="button" label="Stwórz konto" (click)="sharedServicesService.navigateToRegister()"></button></p>
   <!-- TODO: Button 'zaloguj' i pod tym 'nie masz konta? zarejestruj sie' -->
 </div>

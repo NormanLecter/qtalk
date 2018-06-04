@@ -8,11 +8,15 @@ import { SharedServicesService } from '../../shared-services.service';
 })
 export class StartCallComponent implements OnInit {
 
-  numberOfRoom : Number;
+  numberOfRoom : String;
 
   constructor(private sharedServicesService : SharedServicesService) { }
 
   ngOnInit() {
+  }
+
+  joinRoom() {
+    this.sharedServicesService.navigateToConversation(this.numberOfRoom);
   }
 
 }
