@@ -29,8 +29,9 @@ export class ConversationWindowComponent implements OnInit {
   room = location.search && location.search.split('?')[1];
 
   constructor(private sharedServicesService : SharedServicesService,
-    private webRtcService : WebRtcService) { 
+    private webRtcService : WebRtcService) {
 
+      console.log('tes');
     webRtcService.onError().subscribe(error => {
         console.warn(error);
     });
@@ -54,14 +55,14 @@ export class ConversationWindowComponent implements OnInit {
               vol.id = 'volume_' + data.peer.id;
               vol.className = 'volume_bar';
               vol.setAttribute('style', 'position: absolute; width: 8px; margin-left: 30px; margin-top: 10px; background-color: yellow; height: 0px;');
-              data.video.style = 'margin-bottom: 25px; float: right; height: 120px; border-radius: 20px;'  + 
-              '-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);' + 
+              data.video.style = 'margin-bottom: 25px; float: right; height: 120px; border-radius: 20px;'  +
+              '-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);' +
               'moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75); box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);';
               d.appendChild(vol);
               remotes.appendChild(d);
           }
     });
-  
+
     webRtcService.onVolumeChange().subscribe(volume => {
       this.showVolume(document.getElementById('localVolume'), volume);
     });
@@ -87,7 +88,7 @@ export class ConversationWindowComponent implements OnInit {
     });
 
     webRtcService.onLeftRoom().subscribe(roomName  => {
-      console.log();  
+      console.log();
     })
   }
 

@@ -21,7 +21,9 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
-var io = require('socket.io')(server);
+var io = require('socket.io').listen(server);
+
+// io.connect('http://192.168.0.11:3003');
 
 io.on('connection', (socket) => {
   // Log whenever a user connects

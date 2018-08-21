@@ -11,7 +11,7 @@ export class WebsocketService {
   constructor() { }
 
   connect(): Rx.Subject<MessageEvent> {
-    this.socket = io(`http://localhost:3003`);
+    this.socket = io.connect('http://192.168.0.11:3003');
 
     let observable = new Observable(observer => {
         this.socket.on('message', (data) => {
@@ -22,7 +22,7 @@ export class WebsocketService {
           this.socket.disconnect();
         }
     });
-    
+
     let observer = {
         next: (data: Object) => {
             this.socket.emit('message', JSON.stringify(data));
