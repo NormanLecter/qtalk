@@ -104,7 +104,6 @@ export class ConversationWindowComponent implements OnInit {
   }
 
   onChangeMicVolumePower(event) {
-    console.log(event.value / 100);
     this.webRtcService.webrtc.setVolumeForAll(event.value / 100);
   }
 

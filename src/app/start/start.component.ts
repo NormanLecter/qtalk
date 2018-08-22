@@ -29,4 +29,8 @@ export class StartComponent implements OnInit {
     this.sharedServicesService.navigateToAbout();
   }
 
+  goToRoomsHistory() {
+    this.sharedServicesService.navigateToRoomsHistory();
+  }
+
 }
