@@ -14,8 +14,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.signalService.messages.subscribe(msg => {
       console.log(msg);
-    })
-
+    });
     this.signalService.sendMsg('test message');
   }
 }

@@ -1,7 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedServicesService } from '../../shared-services.service';
 
 @Component({
@@ -11,12 +9,12 @@ import { SharedServicesService } from '../../shared-services.service';
 })
 export class StartInfoComponent implements OnInit {
 
-  formName : FormGroup;
-  formRoomName : FormGroup; 
-  numberOfRoom : Number;
+  formName: FormGroup;
+  formRoomName: FormGroup;
+  numberOfRoom: Number;
 
   constructor(private _formBuilder: FormBuilder,
-    private sharedServicesService : SharedServicesService) { }
+    public sharedServicesService: SharedServicesService) { }
 
   ngOnInit() {
     // TODO: sprawdzenie, czy dany numer-kod nie jest już używany

@@ -8,12 +8,12 @@ import { SharedServicesService } from '../shared-services.service';
 })
 export class AboutComponent implements OnInit {
 
-  constructor( private sharedServicesService : SharedServicesService) { }
+  constructor( private sharedServicesService: SharedServicesService) { }
 
   ngOnInit() {
   }
 
-  backToStart(){
+  backToStart() {
     this.sharedServicesService.navigateToHomePage();
   }
 

@@ -11,27 +11,29 @@ import { Observable } from 'rxjs/Observable';
 
 export class ConversationWindowComponent implements OnInit {
 
-  microphones : any;
-  selectedMic : string;
+  microphones: any;
+  selectedMic: string;
 
   constraints = {
     audio: false,
     video: true
   };
 
+  audioDevices = [];
   audioInputs = [];
 
-  mutMic : boolean = false;
+  muteMic = false;
 
-  MicPowerValue : number = 80;
-  MicPowerValueBackup : number = 80;
+  // TODO: 0-1
+  MicPowerValue = 80;
+    // TODO: 0-1
+  MicPowerValueBackup = 80;
 
   room = location.search && location.search.split('?')[1];
 
-  constructor(private sharedServicesService : SharedServicesService,
-    private webRtcService : WebRtcService) {
+  constructor(public sharedServicesService: SharedServicesService,
+    private webRtcService: WebRtcService) {
 
-      console.log('tes');
     webRtcService.onError().subscribe(error => {
         console.warn(error);
     });
@@ -41,20 +43,24 @@ export class ConversationWindowComponent implements OnInit {
     });
 
     webRtcService.onReadyToCall().subscribe(() => {
-      if (this.room) webRtcService.webrtc.joinRoom(this.room);
+      if (this.room) {
+        webRtcService.webrtc.joinRoom(this.room);
+      }
     });
 
     webRtcService.onVideoAdded().subscribe(data => {
-        var remotes = document.getElementById('remote-video-container');
+        const remotes = document.getElementById('remote-video-container');
           if (remotes) {
-              let d = document.createElement('div');
+              const d = document.createElement('div');
               d.className = 'videoContainer';
               d.id = 'container_' + webRtcService.webrtc.getDomId(data.peer);
               d.appendChild(data.video);
-              var vol = document.createElement('div');
+              const vol = document.createElement('div');
               vol.id = 'volume_' + data.peer.id;
               vol.className = 'volume_bar';
-              vol.setAttribute('style', 'position: absolute; width: 8px; margin-left: 30px; margin-top: 10px; background-color: yellow; height: 0px;');
+              // TODO: inne rozwiazanie
+              // tslint:disable-next-line:max-line-length
+              vol.setAttribute('style', 'position: absolute; width: 8px; margin-left: 30px; margin-top: 10px;background-color: yellow; height: 0px;');
               data.video.style = 'margin-bottom: 25px; float: right; height: 120px; border-radius: 20px;'  +
               '-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);' +
               'moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75); box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);';
@@ -68,20 +74,20 @@ export class ConversationWindowComponent implements OnInit {
     });
 
     webRtcService.onChannelMessage().subscribe(data => {
-      if(!data.kick && !data.owner){
+      if (!data.kick && !data.owner) {
         this.showVolume(document.getElementById('volume_' + data.peer.id), data.data.volume);
       }
-      if(data.kick && !data.owner){
+      if (data.kick && !data.owner) {
         this.endConnection();
       }
-      if(!data.kick && data.owner){
+      if (!data.kick && data.owner) {
         this.removeRemotes();
       }
     });
 
     webRtcService.onVideoRemove().subscribe(data => {
-      var remotes = document.getElementById('remote-video-container');
-      var el = document.getElementById('container_' + webRtcService.webrtc.getDomId(data.peer));
+      const remotes = document.getElementById('remote-video-container');
+      const el = document.getElementById('container_' + webRtcService.webrtc.getDomId(data.peer));
       if (remotes && el) {
           remotes.removeChild(el);
       }
@@ -89,7 +95,7 @@ export class ConversationWindowComponent implements OnInit {
 
     webRtcService.onLeftRoom().subscribe(roomName  => {
       console.log();
-    })
+    });
   }
 
   ngOnInit() {
@@ -97,66 +103,91 @@ export class ConversationWindowComponent implements OnInit {
     this.loadMics();
   }
 
-  onChangeMutMicSlideToggle(){
-    this.mutMic = !this.mutMic;
-    if(this.mutMic){
+  onChangeMicVolumePower(event) {
+    console.log(event.value / 100);
+    this.webRtcService.webrtc.setVolumeForAll(event.value / 100);
+  }
+
+  onChangeMutMicSlideToggle() {
+    this.muteMic = !this.muteMic;
+    if (this.muteMic) {
       this.MicPowerValueBackup = this.MicPowerValue;
       this.MicPowerValue = 0;
-    }
-    else{
+      this.webRtcService.webrtc.mute();
+    } else {
+      this.webRtcService.webrtc.unmute();
       this.MicPowerValue = this.MicPowerValueBackup;
     }
   }
 
-  loadMics(){
+  loadMics() {
     let stream;
-    navigator.mediaDevices.getUserMedia({ audio:true })
+    navigator.mediaDevices.getUserMedia({ audio: true })
     .then(s => (stream = s), e => console.log(e.message))
     .then(() => navigator.mediaDevices.enumerateDevices())
     .then(devices => {
-      // console.log("Detected " + devices.length + " devices .");
       devices.forEach(d => {
-        if(d.kind == 'audioinput'){
+        if (d.kind === 'audioinput') {
+          this.audioDevices.push(d);
           this.audioInputs.push({'value' : d.label, 'viewValue' : d.label});
+          if (d.label.includes('Domyślny') || d.label.includes('Default')) {
+            this.webRtcService.mediaOptions.audio = {
+              // optional: [{sourceId: d.deviceId}]
+              deviceId: d.deviceId
+            };
+            this.selectedMic = d.label;
+          }
         }
-      })
+      });
     })
     .catch(e => console.log(e));
   }
 
-  initStaticData(){
+  initStaticData() {
     this.selectedMic = 'Wybierz mikrofon..';
-    this.microphones = [
-      {value : 'Tracer STUDIO 43948'},
-      {value : 'Tracer Classic'},
-      {value : 'ATR3350'}
-    ];
+    this.microphones = [];
+    this.webRtcService.webrtc.setVolumeForAll(0.8);
   }
 
   showVolume(el, volume) {
-    if (!el) return;
-    if (volume < -45) { // wartosci miedzy -45 a -20
-        el.style.height = '0px';
-    } else if (volume > -20) {
-        el.style.height = '100%';
+    if (isFinite(volume)) {
+      if (!el) { return; }
+      if (volume < -45) { // wartosci miedzy -45 a -20
+          el.style.height = '0px';
+      } else if (volume > -20) {
+          el.style.height = '100%';
+      } else {
+          el.style.height = '' + Math.floor((volume + 100) * 100 / 25 - 220) + '%';
+      }
+      // po wyciszeniu jest infinite
     } else {
-        el.style.height = '' + Math.floor((volume + 100) * 100 / 25 - 220) + '%';
+      el.style.height = '0px';
     }
   }
 
-  endConnection(){
+  onChangeMic(event) {
+    this.audioDevices.forEach(device => {
+      if (device.label === event.value ) {
+        this.webRtcService.mediaOptions.audio = {
+          deviceId: device.deviceId
+        };
+      }
+    });
+  }
+
+  endConnection() {
     this.webRtcService.webrtc.sendDirectlyToAll('leave', 'ownerLeave', {'foo' :  'bar'});
     this.webRtcService.webrtc.leaveRoom();
     this.sharedServicesService.navigateToHomePage();
   }
 
-  kickPersons(){
+  kickPersons() {
     this.webRtcService.webrtc.sendDirectlyToAll('kick', 'kickHost', {'foo' :  'bar'});
     this.removeRemotes();
   }
 
-  removeRemotes(){
-    var remotes = document.getElementById('remote-video-container');
+  removeRemotes() {
+    const remotes = document.getElementById('remote-video-container');
     while (remotes.firstChild) {
       remotes.removeChild(remotes.firstChild);
     }
