@@ -42,4 +42,8 @@ export class SharedServicesService {
     this.router.navigate(['register']);
   }
 
+  navigateToRoomsHistory(): void {
+    this.router.navigate(['rooms-history']);
+  }
+
 }
