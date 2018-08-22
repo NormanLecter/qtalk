@@ -12,6 +12,7 @@ export class SharedServicesService {
   constructor(private router: Router) { }
 
   navigateToConversation(numberOfRoom: string, name?: string, roomName?: string): void {
+    sessionStorage.setItem('canGoToConversationWindow', 'true');
     this.numberOfRoom = numberOfRoom;
     // tworca pokoju, jemu numer doda się po wejściu
     if (name && roomName) {
@@ -27,7 +28,7 @@ export class SharedServicesService {
   }
 
   navigateToHomePage(): void {
-      this.router.navigate(['start']);
+    this.router.navigate(['start']);
   }
 
   navigateToAbout(): void {

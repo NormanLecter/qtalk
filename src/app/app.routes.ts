@@ -5,6 +5,7 @@ import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { RoomsHistoryComponent } from './rooms-history/rooms-history.component';
+import { AuthGuard } from './__services/auth-guard.service';
 
 const appRoutes: Routes = [
   {
@@ -15,12 +16,13 @@ const appRoutes: Routes = [
   {
     path: 'conversation-window',
     component: ConversationWindowComponent,
-    data: { title: 'Okno rozmowy - QTalk' }
+    data: { title: 'Okno rozmowy - QTalk' },
+    canActivate: [AuthGuard]
   },
   {
     path: 'about',
     component: AboutComponent,
-    data: { title: 'About - QTalk' }
+    data: { title: 'About - QTalk' },
   },
   {
     path: 'rooms-history',
