@@ -11,17 +11,18 @@
             <h3 *ngIf="sharedServicesService.name != ''">Imię : <strong>{{sharedServicesService.name}}</strong></h3>
             <h3 *ngIf="sharedServicesService.roomName != ''">Nazwa : <strong>{{sharedServicesService.roomName}}</strong></h3>
             <mat-form-field>
-                <mat-select placeholder="Wybierz mikrofon" [(ngModel)]="selectedMic">
+                <mat-select placeholder="Wybierz mikrofon" [(ngModel)]="selectedMic" (selectionChange)="onChangeMic($event)">
                     <mat-option *ngFor="let mic of audioInputs" [value]="mic.value">
                         {{ mic.viewValue }}
                       </mat-option>
                 </mat-select>
             </mat-form-field>
-            <span *ngIf="selectedMic != 'Wybierz mikrofon..'">
-              <h3>Poziom głośności</h3>
-              <mat-slider  min="1" max="100" step="1" [value]="MicPowerValue"></mat-slider>
+            <div>
+              <!-- TODO: WebRTC nie daje mozliwosci zmiany poziomow glosnosci -->
+              <!-- <h3>Poziom głośności</h3>
+              <mat-slider  min="0" max="100" step="1" (change)="onChangeMicVolumePower($event)" [value]="MicPowerValue"></mat-slider> -->
               <mat-slide-toggle (change)="onChangeMutMicSlideToggle($event)" [checked]="muteMic">Wycisz mikrofon</mat-slide-toggle>
-            </span>
+            </div>
         </div>
         <div class="ui-g-6 ui-md-6 ui-lg-6">
             <div id="local-video-container">
@@ -31,4 +32,4 @@
             <div id="remote-video-container"></div>
       </div>
   </div>
-</mat-card> 
+</mat-card>

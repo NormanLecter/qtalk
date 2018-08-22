@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WebsocketService } from './websocket.service';
+// tslint:disable-next-line:import-blacklist
 import { Observable, Subject } from 'rxjs/Rx';
 
 @Injectable()
@@ -12,7 +13,7 @@ export class SignalService {
       .connect()
       .map((response: any): any => {
         return response;
-      })
+      });
   }
 
   sendMsg(msg) {

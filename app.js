@@ -1,14 +1,12 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
-var api = require('./api/api');
+let express = require('express');
+let path = require('path');
+let logger = require('morgan');
+let bodyParser = require('body-parser');
+let api = require('./api/api');
 
-var routes = require('./routes/routes.js');
-var app = express();
+let app = express();
 
-var mongoose = require('mongoose');
+let mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
 app.use(function(req, res, next) {
@@ -16,7 +14,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header("Content-Type", "text/html");
   next();
-  });  
+  });
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -25,20 +23,16 @@ app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/api', api);
 app.use('/*', express.static(path.join(__dirname, 'dist')));
 
-// catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  let err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-// error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });

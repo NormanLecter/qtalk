@@ -11,7 +11,7 @@ export class LoginComponent implements OnInit {
   login: string;
   password: string;
 
-  constructor( private sharedServicesService : SharedServicesService) { }
+  constructor( private sharedServicesService: SharedServicesService) { }
 
   ngOnInit() {
   }
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
     this.sharedServicesService.navigateToHomePage();
   }
 
-  backToStart(){
+  backToStart() {
     this.sharedServicesService.navigateToHomePage();
   }
 

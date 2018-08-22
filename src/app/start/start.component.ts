@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import {FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedServicesService } from '../shared-services.service';
 
 @Component({
@@ -16,7 +14,7 @@ export class StartComponent implements OnInit {
   formRoomName: FormGroup;
 
   constructor(private _formBuilder: FormBuilder,
-  private sharedServicesService : SharedServicesService) { }
+  private sharedServicesService: SharedServicesService) { }
 
   ngOnInit() {
     this.formName = this._formBuilder.group({
@@ -27,7 +25,7 @@ export class StartComponent implements OnInit {
     });
   }
 
-  goToAbout(){
+  goToAbout() {
     this.sharedServicesService.navigateToAbout();
   }
 

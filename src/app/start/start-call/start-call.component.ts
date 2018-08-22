@@ -8,9 +8,9 @@ import { SharedServicesService } from '../../shared-services.service';
 })
 export class StartCallComponent implements OnInit {
 
-  numberOfRoom : String;
+  numberOfRoom: string;
 
-  constructor(private sharedServicesService : SharedServicesService) { }
+  constructor(public sharedServicesService: SharedServicesService) { }
 
   ngOnInit() {
   }

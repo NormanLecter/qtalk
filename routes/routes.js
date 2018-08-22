@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var mongoose = require('mongoose');
-var users = require('../models/users.js');
-var connectionsHistory = require('../models/connections.history.js');
+const express = require('express');
+const router = express.Router();
+const mongoose = require('mongoose');
+const users = require('../models/users.js');
+const connectionsHistory = require('../models/connections.history.js');
 
 module.exports = router;
