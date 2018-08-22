@@ -14,7 +14,9 @@ export class StartComponent implements OnInit {
   formRoomName: FormGroup;
 
   constructor(private _formBuilder: FormBuilder,
-  private sharedServicesService: SharedServicesService) { }
+  private sharedServicesService: SharedServicesService) {
+    sessionStorage.setItem('canGoToConversationWindow', 'false');
+   }
 
   ngOnInit() {
     this.formName = this._formBuilder.group({

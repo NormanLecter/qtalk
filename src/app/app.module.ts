@@ -25,6 +25,7 @@ import { WebsocketService } from './__services/websocket.service';
 import { SignalService } from './__services/signal.service';
 import { RoomsHistoryComponent } from './rooms-history/rooms-history.component';
 import { RoomsHistoryService } from './rooms-history/rooms-history.service';
+import { AuthGuard } from './__services/auth-guard.service';
 import { routing } from './app.routes';
 
 @NgModule({
@@ -58,11 +59,14 @@ import { routing } from './app.routes';
     BrowserAnimationsModule,
     routing
   ],
-  providers: [SharedServicesService,
+  providers: [
+    SharedServicesService,
     WebRtcService,
     WebsocketService,
     RoomsHistoryService,
-    SignalService],
+    SignalService,
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
