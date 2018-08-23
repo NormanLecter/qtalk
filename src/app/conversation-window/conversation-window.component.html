@@ -2,7 +2,8 @@
 <mat-card>
     <div class="ui-g">
         <div class="ui-g-12 ui-md-12 ui-lg-12">
-            <button pButton type="button" (click)="endConnection()" label="Opuść pokój" class="ui-button-danger"></button>
+            <button pButton type="button" *ngIf="sharedServicesService.roomOwner" (click)="endConnection()" label="Zamknij pokój" class="ui-button-danger"></button>
+            <button pButton type="button" *ngIf="!sharedServicesService.roomOwner" (click)="endConnectionGuest()" label="Opuść pokój" class="ui-button-danger"></button>
             <button pButton type="button" *ngIf="sharedServicesService.roomOwner" (click)="kickPersons()" label="Zakończ połączenie z gościem" class="ui-button-warning"></button>
             <h1>QTalk - Pokój rozmowy</h1>
         </div>

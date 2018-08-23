@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SharedServicesService } from '../shared-services.service';
 import { WebRtcService } from '../__services/web-rtc.service';
+import { ConversationWindowService } from './conversation-window.service';
+import { catchError, tap } from '../../../node_modules/rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -9,7 +11,7 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./conversation-window.component.css']
 })
 
-export class ConversationWindowComponent implements OnInit {
+export class ConversationWindowComponent implements OnInit, OnDestroy {
 
   microphones: any;
   selectedMic: string;
@@ -32,7 +34,8 @@ export class ConversationWindowComponent implements OnInit {
   room = location.search && location.search.split('?')[1];
 
   constructor(public sharedServicesService: SharedServicesService,
-    private webRtcService: WebRtcService) {
+    private webRtcService: WebRtcService,
+    private conversationWindowService: ConversationWindowService) {
 
     webRtcService.onError().subscribe(error => {
         console.warn(error);
@@ -78,7 +81,7 @@ export class ConversationWindowComponent implements OnInit {
         this.showVolume(document.getElementById('volume_' + data.peer.id), data.data.volume);
       }
       if (data.kick && !data.owner) {
-        this.endConnection();
+        this.endConnectionGuest();
       }
       if (!data.kick && data.owner) {
         this.removeRemotes();
@@ -101,6 +104,10 @@ export class ConversationWindowComponent implements OnInit {
   ngOnInit() {
     this.initStaticData();
     this.loadMics();
+  }
+
+  ngOnDestroy() {
+    this.endConnectionGuest();
   }
 
   onChangeMicVolumePower(event) {
@@ -174,10 +181,48 @@ export class ConversationWindowComponent implements OnInit {
     });
   }
 
+  endConnectionGuest() {
+    this.conversationWindowService.leaveRoom(sessionStorage.getItem('roomNumber')).pipe(
+      tap(res => {
+        // TODO: przeniesienie logiki tu opuszczania
+        console.log(res);
+      }),
+      catchError((err, caught) => {
+        if (err.statusText === 'OK') {
+          // TODO: Nowa wiadomosc bezposrednia ze opuszcz gosc i usunac remote videos
+          this.webRtcService.webrtc.sendDirectlyToAll('leave', 'ownerLeave', {'foo' :  'bar'});
+          this.webRtcService.webrtc.leaveRoom();
+          this.sharedServicesService.navigateToHomePage();
+        } else {
+         // TODO: narazie nic bo co robic
+        }
+        return Observable.empty();
+      })
+    ).subscribe();
+  }
+
   endConnection() {
-    this.webRtcService.webrtc.sendDirectlyToAll('leave', 'ownerLeave', {'foo' :  'bar'});
-    this.webRtcService.webrtc.leaveRoom();
-    this.sharedServicesService.navigateToHomePage();
+    console.log(sessionStorage.getItem('roomNumber'));
+    console.log(sessionStorage.getItem('ownerKey'));
+    this.kickPersons();
+    this.conversationWindowService.removeRoom(sessionStorage.getItem('roomNumber'), sessionStorage.getItem('ownerKey'))
+    .pipe(
+      tap(res => {
+        // TODO: przeniesienie logiki tu opuszczania
+        console.log(res);
+
+      }),
+      catchError((err, caught) => {
+        if (err.statusText === 'OK') {
+          this.webRtcService.webrtc.sendDirectlyToAll('leave', 'ownerLeave', {'foo' :  'bar'});
+          this.webRtcService.webrtc.leaveRoom();
+          this.sharedServicesService.navigateToHomePage();
+        } else {
+         // TODO: narazie nic bo co robic
+        }
+        return Observable.empty();
+      })
+    ).subscribe();
   }
 
   kickPersons() {
