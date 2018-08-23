@@ -7,6 +7,8 @@ const Room = require('./models/room.ts')
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://qtalk:trytytki1@ds125402.mlab.com:25402/qtalk');
 
+const adminPassword = 'trytytki'
+
 let changeRoomStatus = (roomNumber, status) => {
     Room.update({number: roomNumber}, {
         status: status
@@ -35,22 +37,34 @@ let createRoom = (number, name, status, ownerName, ownerKey) => {
     connectionHistory.save()
 }
 
-let deleteRoom = roomNumber => {
-    let roomIndex = getRoomIndex(roomNumber)
-
-    rooms.splice(roomIndex, 1)
-}
-
 api.post('/login', (req, res) => {
     res.redirect('/');
 })
 
 api.get('/connections-history', (req, res) => {
+    let password = req.param('password')
     res.contentType('json')
 
-    ConnectionHistory.find().then(result => {
-        res.send(result)
-    })
+    if (password === adminPassword) {
+        ConnectionHistory.find().then(result => {
+            res.send(result)
+        })
+    } else {
+        res.sendStatus(401)
+    }
+})
+
+api.delete('/connections-history', (req, res) => {
+    let password = req.param('password')
+    res.contentType('json')
+
+    if (password === adminPassword) {
+        ConnectionHistory.find().remove().then(result => {
+            res.sendStatus(200)
+        })
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 api.post('/room/create', (req, res) => {
