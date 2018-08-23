@@ -14,7 +14,9 @@ export class StartComponent implements OnInit {
   formRoomName: FormGroup;
 
   constructor(private _formBuilder: FormBuilder,
-  private sharedServicesService: SharedServicesService) {
+  public sharedServicesService: SharedServicesService) {
+    sessionStorage.setItem('ownerKey', '');
+    sessionStorage.setItem('roomNumber', '');
     sessionStorage.setItem('canGoToConversationWindow', 'false');
    }
 

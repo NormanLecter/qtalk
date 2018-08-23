@@ -13,7 +13,7 @@ export class WebsocketService {
   constructor() { }
 
   connect(): Rx.Subject<MessageEvent> {
-    this.socket = io.connect('http://192.168.0.11:3003');
+    this.socket = io.connect('http://192.168.43.148:3003');
 
     const observable = new Observable(obs => {
         this.socket.on('message', (data) => {

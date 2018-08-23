@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedServicesService } from '../shared-services.service';
 import { History } from './history.interface';
-import { MatTableDataSource } from '@angular/material';
 import { RoomsHistoryService } from './rooms-history.service';
+import { Observable } from 'rxjs/Observable';
+import { tap, catchError } from 'rxjs/operators';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 @Component({
   selector: 'app-rooms-history',
@@ -11,35 +13,21 @@ import { RoomsHistoryService } from './rooms-history.service';
 })
 export class RoomsHistoryComponent implements OnInit {
 
-  // TODO: wrzucic dane z bazy - strzal do API
-  ELEMENTS: History[] = [
-    {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-    {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-    {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-    {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-    {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-    {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-    {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-    {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-    {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-    {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  ];
+  ELEMENTS: History[] = [];
 
-  displayedColumns: string[];
-
-  dataSource: any;
+  passwordValidate = false;
+  showWhenDeleting = true;
+  password = '';
 
   constructor( private sharedServicesService: SharedServicesService,
-  private roomsHistoryService: RoomsHistoryService) { }
+  private roomsHistoryService: RoomsHistoryService,
+  private messageService: MessageService) { }
 
   ngOnInit() {
     this.loadData();
   }
 
   loadData() {
-    this.dataSource = new MatTableDataSource(this.ELEMENTS);
-    // TODO: zmiana nazw kolumn tu i w HTML
-    this.displayedColumns = ['position', 'name', 'weight', 'symbol'];
     this.loadHistory();
   }
 
@@ -47,17 +35,90 @@ export class RoomsHistoryComponent implements OnInit {
     this.sharedServicesService.navigateToHomePage();
   }
 
+  checkPasswordButton() {
+    if (this.password === 'trytytki') {
+      this.passwordValidate = true;
+      this.messageService.add(
+        {severity: 'success',
+        summary: 'Sukces!',
+        detail: 'Hasło poprawne - uzyskałeś dostęp do historii stworzonych pokoi',
+        key: 'qtalkMessages'
+      });
+    } else {
+      this.messageService.add(
+        {severity: 'warn',
+        summary: 'Błąd',
+        detail: 'Hasło niepoprawne - spróbuj ponownie',
+        key: 'qtalkMessages'
+      });
+    }
+  }
+
+  checkPassword(event) {
+    if (event.keyCode === 13) {
+      if (this.password === 'adammalysz') {
+        this.messageService.add(
+          {severity: 'success',
+          summary: 'Sukces!',
+          detail: 'Hasło poprawne - uzyskałeś dostęp do historii stworzonych pokoi',
+          key: 'qtalkMessages'
+        });
+      } else {
+        this.messageService.add(
+          {severity: 'warn',
+          summary: 'Błąd',
+          detail: 'Hasło niepoprawne - spróbuj ponownie',
+          key: 'qtalkMessages'
+        });
+      }
+    }
+  }
+
   loadHistory() {
-    this.roomsHistoryService.getHistory().subscribe((res => {
-      // TODO: wpisanie danych do dataSource
-    }));
+    // TODO: to haslo mocno TODO XD
+    this.roomsHistoryService.getHistory('trytytki').pipe(
+      tap(res => {
+        console.log(res);
+        this.ELEMENTS = <History[]>res;
+      }),
+      catchError((err, caught) => {
+        console.log(err);
+        console.log(err.statusText);
+        if (err.statusText === 'OK') {
+          // TODO: sprawdzic co tu jest
+        } else if  (err.statusText === 'Unauthorized') {
+         // TODO: Message ze zle haslo
+        } else {
+          console.log(err);
+          console.log(caught);
+        }
+        return Observable.empty();
+      })
+    ).subscribe();
   }
 
   deleteRoomsHistory() {
-    this.roomsHistoryService.deleteHistory().subscribe(res => {
-        this.dataSource = [];
-      }
-    );
+    this.showWhenDeleting = false;
+    // TODO: to haslo mocno TODO XD
+    this.roomsHistoryService.deleteHistory('trytytki').pipe(
+      tap(res => {
+        // TODO: przeniesienie logiki tu opuszczania
+        console.log(res);
+      }),
+      catchError((err, caught) => {
+        console.log(err);
+        console.log(err.statusText);
+        if (err.statusText === 'OK') {
+          this.ELEMENTS = [];
+          this.showWhenDeleting = true;
+        } else if  (err.statusText === 'Unauthorized') {
+         // TODO: Message ze zle haslo
+        } else {
+          console.log(err);
+          console.log(caught);
+        }
+        return Observable.empty();
+      })
+    ).subscribe();
   }
-
 }

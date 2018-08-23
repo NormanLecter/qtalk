@@ -1,8 +1,8 @@
 var express = require('express')
 var api = express.Router()
 var uuid = require('uuid/v4')
-const ConnectionHistory = require('./models/connection_history.ts')
-const Room = require('./models/room.ts')
+const ConnectionHistory = require('./models/connection-history.js')
+const Room = require('./models/room.js')
 
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://qtalk:trytytki1@ds125402.mlab.com:25402/qtalk');
@@ -31,7 +31,7 @@ let createRoom = (number, name, status, ownerName, ownerKey) => {
         roomNumber: number,
         roomName: name,
         ownerName: ownerName,
-        ownerKey: ownerKey, 
+        ownerKey: ownerKey,
         timestamp: Date.now()
     })
     connectionHistory.save()
@@ -68,30 +68,30 @@ api.delete('/connections-history', (req, res) => {
 })
 
 api.post('/room/create', (req, res) => {
-    res.contentType('json')
-    let body = req.body
+  res.contentType('json')
+  let body = req.body
 
-    let roomNumber = body['number']
-    let roomName = body['name']
-    let ownerName = body['ownerName']
+  let roomNumber = body['number']
+  let roomName = body['name']
+  let ownerName = body['ownerName']
 
-    ownerKey = uuid()
-        
-        createRoom(
-            roomNumber,
-            roomName,
-            'waiting',
-            ownerName,
-            ownerKey
-        )
+  Room.findOne({number: roomNumber}).then(result => {
+      if (result == null) {
+          ownerKey = uuid()
 
-        res.send({key: ownerKey})
+          createRoom(
+              roomNumber,
+              roomName,
+              'waiting',
+              ownerName,
+              ownerKey
+          )
 
-    if (room) {
-        res.sendStatus(403)
-    } else {
-        
-    }
+          res.send({ key: ownerKey })
+      } else {
+          res.sendStatus(403)
+      }
+  })
 })
 
 api.post('/room/join', (req, res) => {

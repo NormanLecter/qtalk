@@ -7,14 +7,12 @@ export class RoomsHistoryService {
 
   constructor(private http: HttpClient) { }
 
-  deleteHistory(): Observable<any> {
-    // TODO: http delete do API - usuniecie calej historii
-    return this.http.delete('https://jsonplaceholder.typicode.com/todos/1');
+  deleteHistory(password): Observable<any> {
+    return this.http.delete('http://192.168.43.148:3003/api/connections-history?password=' + password);
   }
 
-  getHistory(): Observable<any> {
-    // TODO: http get do API - pobranie calej historii
-    return this.http.get('https://jsonplaceholder.typicode.com/todos/1');
+  getHistory(password): Observable<any> {
+    return this.http.get('http://192.168.43.148:3003/api/connections-history?password=' + password);
   }
 
 }

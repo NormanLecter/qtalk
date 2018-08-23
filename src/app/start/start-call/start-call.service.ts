@@ -8,6 +8,6 @@ export class StartCallService {
   constructor(private http: HttpClient) { }
 
   joinToRoom(roomNumber): Observable<any> {
-    return this.http.post('http://localhost:3003/api/room/join?number=' + roomNumber, {});
+    return this.http.post('http://192.168.43.148:3003/api/room/join?number=' + roomNumber, {});
   }
 }
